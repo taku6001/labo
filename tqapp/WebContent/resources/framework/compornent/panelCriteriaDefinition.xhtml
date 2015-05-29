@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://java.sun.com/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:composite="http://java.sun.com/jsf/composite">
+	<h:body>
+	<!-- panelCriteriaTextなどの入力要素構成用タグにbaseCriteriaItemとcriteriaItemをpanelCriteria.xhtmlから継承させるために使用 -->
+	<!-- panelCriteria.xhtmlに定義 -->
+	<composite:interface>
+		<composite:attribute name="baseCriteriaItem" required="true"/>
+		<composite:attribute name="criteriaItem" required="true"/>
+	</composite:interface>
+	
+	<composite:implementation>
+		<composite:insertChildren/>	
+	</composite:implementation>
+
+	</h:body>
+</html>

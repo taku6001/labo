@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition
+	template="/resources/app/compornent/app-common-layout.xhtml">
+	<ui:define name="local-header"></ui:define>
+
+	<ui:define name="local-main">
+		<div class="x-properties">
+			<table class="x-properties">
+				<tr>
+					<th>問い１</th>
+					<td>元気ですか？<br /> <h:inputText id="q01" label="問い１"
+							value="#{questionnaireEditPage.qa01}"
+							styleClass="x-alphamericField">
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<th>問い2</th>
+					<td>どれがいいですか？（複数選択可） <br /> <h:selectManyCheckbox
+							id="tools" value="#{questionnaireEditPage.tools}">
+							<f:selectItems value="#{questionnaireEditPage.selectedTools}" />
+						</h:selectManyCheckbox>
+					</td>
+				</tr>
+				<tr>
+					<th>問い3</th>
+					<td>どうして問２のツールがいいですが？<br />
+						<h:inputTextarea
+							id="toolReason" value="#{questionnaireEditPage.reasonTools}" rows="5" cols="30">
+						</h:inputTextarea>
+					</td>
+				</tr>
+			</table>
+			<h:commandButton type="submit" value="送信" action="#{questionnaireEditPage.answerQuestion}"/>
+		</div>
+	</ui:define>
+	
+	<ui:define name="local-footer"></ui:define>
+</ui:composition>
+</html>

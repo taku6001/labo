@@ -1,0 +1,92 @@
+@charset "utf-8";
+/* ==========================================================================
+	アプリケーション共通スタイル（全体レイアウト）
+   ========================================================================== */
+/* ヘッダーの高さを固定 */
+.x-header-container {line-height: 20px;}
+.x-main-container {top: 28px;}
+/* サイドメニューの横幅を固定 */ 
+.x-main aside { width: 15%; top: 28px;}
+.x-main article { left: 17%; width: 82%; }
+.x-main article.toggleOff { left: 0; width: 99%; }
+.x-main { padding: 0;}
+
+/* 横幅が767px以下用（タブレット／スマートフォン用）の記述 */
+@media only screen and (max-width: 767px) {
+	/* サイドメニューをブロック表示 */
+	.x-header-container, .x-footer-container, .x-main aside, .x-main article{
+		position: relative; 
+		width: 100%; left: auto; top: auto;
+	}
+	.x-main-container {top: 0;}
+	.x-main aside   { width: 94%}
+	.x-main article { width: 99%}
+}
+
+
+/* ヘッダー、フッターの色 */
+.x-header-container,.x-footer-container {
+	background-color: #1d5987;
+}
+/* アプリケーションタイトル */
+.x-app-title { color: white; margin: 0px;}
+
+/* ナビリンクの色 */
+nav a {
+	color: white;
+	background: #1d5987;
+	/* background: #5c9ccc url(libs/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png) 50% 50% repeat-x;*/
+}
+
+/* サイドメニューの色 */
+.x-main aside {
+	border-top: 15px solid #1d5987;
+	border-bottom: 15px solid #1d5987;
+	border: 15px solid #1d5987;
+	border-width: 15px  5px 20px 2px;
+	background-color: #EFEFEF;
+	/* background: #5c9ccc url(libs/jquery-ui/css/cst-theme/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png) 50% 50% repeat-x;*/
+	/* background: #dfeffc url(libs/jquery-ui/css/cst-theme/images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x;*/
+}
+/* 
+.x-side-menu h3 {
+	background-color: #E60012;
+}
+.x-side-menu a{
+	border-color: #0075C1;
+	background-color: #fff;
+	color: #0075C1;
+	width: 85%; 
+}
+.x-side-menu a:hover{
+	background-color: #E60012;
+ 	color: #FFFFFF;
+}
+*/
+
+/* 画面（ページ）タイトル */
+.x-page-title {}
+
+
+/* トグル */
+.x-toggle-content {
+	border: 1px solid #CCCCCC;
+	border-top-style: none;
+	background: transparent;
+}
+
+/* アクティブ時のスタイルを強調 */
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+	border: 1px solid #eeeeee;
+	background: #e60012;
+	font-weight: bold;
+	color: #ffffff;
+}
+.ui-state-active a,
+.ui-state-active a:link,
+.ui-state-active a:visited {
+	color: #ffffff;
+}
+

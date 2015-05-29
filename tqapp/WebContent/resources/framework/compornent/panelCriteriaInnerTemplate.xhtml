@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://java.sun.com/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:composite="http://java.sun.com/jsf/composite">
+	<h:body>
+	
+	<composite:interface>
+		<composite:attribute name="inner_baseCriteriaItem" required="true"/>
+		<composite:attribute name="inner_criteriaItem" required="true"/>
+		<composite:attribute name="inner_id" required="true"/>
+		<composite:attribute name="inner_name" required="true"/>
+		<!-- AND/OR選択を表示するか否か -->
+		<composite:attribute name="inner_andOr" default="true" />
+		<!-- 常時表示する条件とするか否か -->
+		<composite:attribute name="inner_fixed" default="false" />
+	</composite:interface>
+
+	<composite:implementation>
+		<ui:fragment rendered="#{cc.attrs.inner_criteriaItem.isDispCond(cc.attrs.inner_id)}">
+		<li>
+			<span class="x-criteria-property">
+				<span>
+					<!-- 固定条件の場合 -->
+					<ui:fragment rendered="#{cc.attrs.inner_fixed}">
+					<span class="x-criteria-fixed-icon" />
+					</ui:fragment>
+					
+					<!-- 固定条件でない場合 -->
+					<ui:fragment rendered="#{not cc.attrs.inner_fixed}">
+					<!-- 条件項目削除アイコン（f:paramでリクエストパラメタに削除対象項目名を指定） -->
+					<a href="javascript:void(0);" jsf:actionListener="#{cc.attrs.inner_criteriaItem.removeDispCond(cc.attrs.inner_id)}">
+						<span class="x-criteria-close-icon"/>
+						<f:ajax execute="@form" render="#{xCriteriaAreaId}"/>
+					</a>
+					</ui:fragment>
+					#{cc.attrs.inner_name}
+				</span>
+				<composite:insertChildren/>	
+			</span>
+			<!-- AND/OR選択（オプション指定がある場合のみ） -->
+			<ui:fragment rendered="#{cc.attrs.inner_andOr}">
+			<span class="x-criteria-andor">
+				<h:selectOneRadio id="#{cc.attrs.inner_id.concat('AndOr')}" value="#{cc.attrs.inner_criteriaItem[cc.attrs.inner_id.concat('AndOr')]}">
+					<f:selectItems value="#{cc.attrs.inner_baseCriteriaItem.andOrOptions}"/>
+				</h:selectOneRadio>
+			</span>
+			</ui:fragment>
+		</li>	
+		</ui:fragment>
+	</composite:implementation>
+
+	</h:body>
+</html>

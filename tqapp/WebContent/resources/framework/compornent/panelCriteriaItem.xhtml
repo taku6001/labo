@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://java.sun.com/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:composite="http://java.sun.com/jsf/composite"
+	  xmlns:x="http://java.sun.com/jsf/composite/framework/compornent">
+	<h:body>
+	
+	<composite:interface>
+		<composite:attribute name="id" required="true"/>
+		<composite:attribute name="name" required="true"/>
+		<!-- AND/OR選択を表示するか否か -->
+		<composite:attribute name="andOr" default="false" />
+		<!-- 常時表示する条件とするか否か -->
+		<composite:attribute name="fixed" default="false" />
+	</composite:interface>
+
+	<composite:implementation>
+		<x:panelCriteriaInnerTemplate inner_baseCriteriaItem="#{cc.parent.attrs.baseCriteriaItem}" inner_criteriaItem="#{cc.parent.attrs.criteriaItem}"
+			inner_id="#{cc.attrs.id}" inner_name="#{cc.attrs.name}" inner_andOr="#{cc.attrs.andOr}" inner_fixed="#{cc.attrs.fixed}">
+			<composite:insertChildren/>	
+		</x:panelCriteriaInnerTemplate>
+	</composite:implementation>
+
+	</h:body>
+</html>

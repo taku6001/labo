@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  class="no-js">
+	<h:head>
+ 		<f:loadBundle basename="resources.MessageResources_ja" var="x_message"/>
+ 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta charset="utf-8"/>
+		<title>#{x_message['application.title']}</title>
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="-1"/>
+		<meta http-equiv="cache-control" content="no-store"/>
+		<!-- normalize.css : A modern, HTML5-ready alternative to CSS resets -->
+		<link href="#{request.contextPath}/resources/framework/libs/normalize.min.css" rel="stylesheet"/>
+	<ui:insert name="jquery" >
+		<!-- jQuery / jQuery UI -->
+		<link href="#{request.contextPath}/resources/framework/libs/jquery-ui/css/cst-theme/jquery-ui-1.10.4.custom.min.css" rel="stylesheet"/>
+		<script src="#{request.contextPath}/resources/framework/libs/jquery/jquery-1.11.0.min.js"></script>
+		<script src="#{request.contextPath}/resources/framework/libs/jquery-ui/js/jquery-ui-1.10.4.custom.min.js"></script>
+	</ui:insert>
+		<!-- CST Framework Common Style -->
+		<link href="#{request.contextPath}/resources/framework/css/x-common.css" rel="stylesheet"/>
+		<!-- CST Framework Input Formatter Style -->
+		<link href="#{request.contextPath}/resources/framework/css/x-format.css" rel="stylesheet"/>
+		<!-- +++++++++++++++++++++++++++++++++++++ Application Common Header -->
+		<ui:insert name="app-head"/>
+		<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++ Local Header -->
+		<ui:insert name="local-head"/>
+
+		<!-- IE8対応 : IE8の場合はhtmlタグにno-js lt-ie9クラスを設定 -->
+		<script type="text/javascript">//<![CDATA[
+		if (window.navigator.userAgent.toLowerCase().indexOf('msie') != -1
+				&& window.navigator.appVersion.toLowerCase().indexOf("msie 8.") != -1) {
+			document.getElementsByTagName("html")[0].className = "no-js lt-ie9";
+		}
+		//]]></script>
+		<!-- Modernizr  : detects HTML5 and CSS3 features in the user’s browser -->
+		<script src="#{request.contextPath}/resources/framework/libs/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+	</h:head>
+	<h:body>
+	
+		<div class="x-header-container ui-front">
+			<ui:insert name="header" >
+				<ui:include src="/resources/framework/compornent/x-common-header.xhtml" />
+			</ui:insert>
+			<!-- メッセージ表示欄 -->
+			<div id="x-messages-area" class="ui-widget ui-state-highlight x-hidden"></div>
+		</div>
+		<div class="x-main-container">
+			<div class="x-main x-wrapper x-clearfix">
+				<!-- =========================================== Main Content-->
+				<article>
+					<ui:insert name="local-main">ここにコンテンツが挿入される</ui:insert>
+				</article>
+ 
+			<ui:insert name="aside" >
+				<ui:include src="/resources/framework/compornent/x-common-aside.xhtml" />
+			</ui:insert>
+			</div> <!-- .x-main -->
+		</div> <!-- .x-main-container -->
+
+		<div class="x-footer-container ui-front">
+			<ui:insert name="footer" >
+				<ui:include src="/resources/framework/compornent/x-common-footer.xhtml" />
+			</ui:insert>
+		</div>
+		<!-- メッセージ (@PostConstractでメッセージを設定した時の対応) -->
+		<h:panelGroup layout="block" id="x-render-messages" styleClass="x-hidden">
+			<div id="x-messages" class="x-hidden"><h:messages errorClass="ui-state-error"/></div>
+			<script type="text/javascript">
+			//<![CDATA[
+			$(function(){XLayout.initializeMessage();});
+			//]]>
+			</script>
+		</h:panelGroup>
+		
+		<!-- ============================================== Script Definition-->
+		<!-- CST Framework Common Script -->
+		<script src="#{request.contextPath}/resources/framework/js/x-common.js"></script>
+		<!-- CST Framework Input Formatter Style -->
+		<script src="#{request.contextPath}/resources/framework/js/x-format.js"></script>
+		<!-- +++++++++++++++++++++++++++++++++++++ Application Common Script -->
+		<ui:insert name="app-script"/>
+		<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++ Local Script -->
+		<ui:insert name="local-script"/>
+	</h:body>
+</html>
+

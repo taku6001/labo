@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://java.sun.com/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<h:body>
+	<ui:composition template="/resources/app/compornent/app-common-layout.xhtml">
+		<!-- アプリケーションヘッダー -->
+		<ui:define name="header">
+			<header class="x-wrapper x-clearfix ">
+				<h2 class="x-app-title">#{x_message['application.title']}</h2>
+			</header>
+		</ui:define>
+		<!-- サイドメニューは表示しない -->
+		<ui:define name="aside">
+			<script type="text/javascript">
+			//<![CDATA[
+			document.getElementsByTagName("article")[0].className = "toggleOff";
+			//]]>
+			</script>
+		</ui:define>
+		
+		<!-- ============================================ 画面固有のhead定義 -->
+		<ui:define name="local-head">
+		<style type="text/css">
+			div.x-properties 		 		{ width: 35%; margin-left: 25%; margin-top: 5%;}
+			div.x-properties ul li 		{ border-style: none; background: transparent;}
+			div.x-properties ul li span:first-child 	{ background: transparent; text-align: right; padding-right: 1em;}
+			button#b-login					{ margin-left: 140px; margin-top: 20px;}
+		</style>
+		</ui:define><!-- name=local-head -->
+		<!-- ============================================== 画面主要部の定義 -->
+		<ui:define name="local-main">
+		<header>
+			<!-- 画面タイトル -->
+			<h2 class="x-page-title">システムエラー</h2>
+		</header>
+		<section>
+			<hr />
+				<h:messages />
+				<!-- TODO とりあえずAclFilterからのメッセージを固定で取得（FilterでFacesContextを使用するのが難しいので） -->
+				#{request.getAttribute("aclMessage")}
+				<br />
+			<hr />
+
+		<form jsf:id="errorForm" >
+			<a href="#{request.contextPath}/pages/TopMenu.xhtml">ページトップへ</a><br />
+		</form>
+		</section>
+		<footer>
+
+		</footer>
+			
+		</ui:define><!-- name=local-main -->
+		<!-- ======================================== 画面固有のscriptを定義 -->
+		<ui:define name="local-script">
+		<script type="text/javascript">
+		//<![CDATA[
+		$(function(){
+			var msgArea = $("#x-messages-area");
+			//x-common-layout.xhtmlのメッセージ処理を停止
+			if(msgArea!=null){
+				msgArea.html("");
+			}
+		});
+		//]]>
+		</script>
+		</ui:define><!-- name=local-script -->
+	</ui:composition>
+	</h:body>
+</html>

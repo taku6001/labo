@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<h:body>
+<ui:composition template="/resources/framework/compornent/x-common-layout.xhtml">
+	<!-- jQuery / jQuery UI Libraries -->
+	<!-- jQuery / jQuery UI : アプリケーション毎にjQuery UI Theme Rollerよりテーマを作成し下記に定義
+	< u i:define name="jquery">
+		<link href="#{request.contextPath}/resources/app/libs/jquery-ui/jquery-ui.min.css" rel="stylesheet"/>
+		<script src="#{request.contextPath}/resources/framework/libs/jquery/jquery-1.11.0.min.js"></script>
+		<script src="#{request.contextPath}/resources/app/libs/jquery-ui/jquery-ui.min.js"></script>
+		<script src="#{request.contextPath}/resources/framework/libs/jquery/jquery.cookie.js"></script>
+	</ u i :define>
+	-->
+	
+	<!-- アプリケーション共通 HTML-HEAD -->
+	<ui:define name="app-head">
+		<!-- jQuery Cookieを使用する（上記のjQuery UIを定義するならそっちで） -->
+		<script src="#{request.contextPath}/resources/framework/libs/jquery/jquery.cookie.js"></script>
+		<!-- Favicon -->
+<!-- 		<link rel="shortcut icon" href="#{request.contextPath}/resources/app/images/favicon.ico" /> -->
+		<!-- Application Common Style -->
+		<link href="#{request.contextPath}/resources/app/css/common.css" rel="stylesheet"/>
+	</ui:define><!-- name=app-head -->
+		
+	<!-- アプリケーション共通ヘッダー -->
+	<ui:define name="header">
+		<ui:include src="/resources/app/compornent/app-common-header.xhtml" />
+	</ui:define>
+
+	<!-- サイドメニュー(aside) -->
+	<ui:define name="aside" >
+		<ui:include src="/resources/app/compornent/app-common-aside.xhtml" />
+	</ui:define>
+	<!-- asideを使用しない場合は、aside定義の中身にincludeせず、articleにtoggleOffクラスを設定しasideなしレイアウトへ -->
+	<!-- 
+	<ui:define name="aside">
+		<script type="text/javascript">
+		//<![CDATA[
+		document.getElementsByTagName("article")[0].className = "toggleOff";
+		//]]>
+		</script>
+	</ui:define>
+	-->
+
+	<!-- アプリケーション共通 SCRIPT -->
+	<ui:define name="app-script">
+		<!-- Application Common Script -->
+		<script src="#{request.contextPath}/resources/app/js/common.js"></script>
+	</ui:define><!-- name=app-head -->
+	
+</ui:composition>
+	</h:body>
+</html>

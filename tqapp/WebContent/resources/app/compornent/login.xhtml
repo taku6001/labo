@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<h:body>
+	<ui:composition template="/resources/app/compornent/app-common-layout.xhtml">
+		<!-- アプリケーションヘッダー -->
+		<ui:define name="header">
+			<header class="x-wrapper x-clearfix ">
+				<h2 class="x-app-title">#{x_message['application.title']}</h2>
+			</header>
+		</ui:define>
+		<!-- サイドメニューは表示しない -->
+		<ui:define name="aside">
+			<script type="text/javascript">
+			//<![CDATA[
+			document.getElementsByTagName("article")[0].className = "toggleOff";
+			//]]>
+			</script>
+		</ui:define>
+		
+		<!-- ============================================ 画面固有のhead定義 -->
+		<ui:define name="local-head">
+		<style type="text/css">
+			div.title-logo   { width: 20%; margin-left: 40%; }
+			div.x-properties { width: 40%; margin-left: 30%; }
+			ul.x-properties > li { border-style: none; background: transparent;}
+			ul.x-properties > li > span:first-child, ul.x-properties > li > label > span:first-child 	{ 
+				background: transparent; text-align: right; padding-right: 1em;
+			}
+			ul.x-properties > li > span .ui-icon { display: inline-block;}
+			div.actionArea { text-align: center; margin-top: 20px;}
+			li#newPasswd > label > span, li#confirmPasswd > label > span {
+				color: #FF3333;
+			}
+			div.title-logo img {width: 100%;}
+			#b-keepalive {display: none;}
+			
+			/* 横幅が767px以下用（タブレット／スマートフォン用）の記述 */
+			@media only screen and (max-width: 767px) {
+				div.title-logo   { width: 40%; margin-left: 30%; }
+				div.x-properties { width: 90%; margin-left: 5%; }
+				ul.x-properties > li > p { margin: 0; }
+			}
+			</style>
+		</ui:define><!-- name=local-head -->
+		<!-- ============================================== 画面主要部の定義 -->
+		<ui:define name="local-main">
+		<header>
+			<div class="title-logo">
+				<img src="#{request.contextPath}/resources/app/images/CST-logomark-full color_clear.png" />
+			</div>
+		</header>
+		<section>
+			<form jsf:id="loginForm">
+				<h:panelGroup layout="block" id="inputArea" styleClass="x-properties" >
+					<ul class="x-properties x-li-1col">
+						<li>
+							<label>
+								<span>ユーザID</span>
+								<h:inputText label="ユーザID" id="userId" value="#{actionUserLoginPage.userId}" styleClass="x-halfTextField">
+									<f:validateRequired/>
+									<f:validateLength maximum="20" />
+								</h:inputText>
+							</label>
+						</li>
+						<li>
+							<label>
+								<span>パスワード</span>
+								<h:inputSecret label="パスワード" id="passwd" value="#{actionUserLoginPage.password}" redisplay="false">
+									<f:validateRequired/>
+									<f:validateLength maximum="20" />
+								</h:inputSecret>
+							</label>
+						</li>
+						<li>
+							<span>
+								<span class="ui-icon ui-icon-wrench"/>
+							</span>
+							<p>
+								<label>
+									<h:selectBooleanCheckbox id="requiredChangePassword" value="#{actionUserLoginPage.requiredChangePassword}" >
+										<f:ajax event="click" render="inputArea"/>
+									</h:selectBooleanCheckbox>
+									パスワード変更
+								</label>
+							</p>
+						</li>
+						<ui:fragment rendered="#{actionUserLoginPage.requiredChangePassword}">
+						<li id="newPasswd">
+							<label>
+								<span>新しいパスワード</span>
+								<h:inputSecret label="新しいパスワード" id="newPassword" value="#{actionUserLoginPage.newPassword}" redisplay="false">
+									<f:validateRequired/>
+									<f:validateLength maximum="20" />
+								</h:inputSecret>
+							</label>
+						</li>
+						<li id="confirmPasswd">
+							<label>
+								<span>確認パスワード</span>
+								<h:inputSecret label="確認パスワード" id="confirmPassword" value="#{actionUserLoginPage.confirmPassword}" redisplay="false">
+									<f:validateRequired/>
+									<f:validateLength maximum="20" />
+								</h:inputSecret>
+							</label>
+						</li>
+						</ui:fragment>
+					</ul>
+					<div class="actionArea">
+						<!-- 検索アクション -->
+						<button jsf:action="#{actionUserLoginPage.login}" id="b-login" jsf:rendered="#{not actionUserLoginPage.requiredChangePassword}">
+							ログイン
+						</button>
+						<!-- パスワード変更アクション -->
+						<button jsf:action="#{actionUserLoginPage.changePassword}" id="b-chgpwd" jsf:rendered="#{actionUserLoginPage.requiredChangePassword}">
+							パスワード変更
+						</button>
+						<!-- KeepAliveアクション：セッション時間を超過して画面を開いたままだとViewExpiredExceptionが発生（viewが復元できない） -->
+						<button jsf:action="#{loginPage.keepAlive}" id="b-keepalive">
+							<f:ajax execute="@form"/>
+							KeepAlive
+						</button>
+						<!-- 暗号化タイプ（SHA-256 or MD5） -->
+						<h:inputHidden id="encryptType" value="SHA-256" />
+					</div>
+				</h:panelGroup><!-- .x-properties -->
+			</form>
+		</section>
+		<footer>
+
+		</footer>
+			
+		</ui:define><!-- name=local-main -->
+		<!-- ======================================== 画面固有のscriptを定義 -->
+		<ui:define name="local-script">
+		<script type="text/javascript">
+		//<![CDATA[
+		$(function(){
+			function _setStyle(){
+				//ログインボタンスタイル
+				$("#b-login").button({icons: {primary: 'ui-icon-person'}}).css({"width":"120px"});
+				//パスワード変更ボタンスタイル
+				$("#b-chgpwd").button({icons: {primary: 'ui-icon-key'}}).css({"width":"120px"});
+				
+				//初期カーソル位置
+				setTimeout(function(){
+					if($("#x-message-close").size()) return;
+					$("#loginForm_userId").focus();
+				}, 10); 
+			}
+			//JSF非同期処理eventの制御
+			jsf.ajax.addOnEvent(function(event) {
+				if(event.status=="success") {
+					_setStyle();
+				}	
+			});
+			_setStyle();
+			
+			//60秒毎に画面のハートビートを送る
+			setInterval(function(){$("#b-keepalive").click();}, 60000);
+		});
+		//]]>
+		</script>
+		</ui:define><!-- name=local-script -->
+	</ui:composition>
+	</h:body>
+</html>

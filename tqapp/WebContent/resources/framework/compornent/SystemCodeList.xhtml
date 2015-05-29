@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:x="http://java.sun.com/jsf/composite/framework/compornent">
+	<h:body>
+	<ui:composition template="/resources/app/compornent/app-common-layout.xhtml">
+		<!-- ============================================ 画面固有のhead定義 -->
+		<ui:define name="local-head">
+			<!-- SystemCodeList Page Style -->
+			<!-- <link href="#{request.contextPath}/pages/organization/css/SystemCodeList.css" rel="stylesheet"/> -->
+
+	<style>
+
+		
+	</style>
+		</ui:define><!-- name=local-head -->
+		<!-- ============================================== 画面主要部の定義 -->
+		<ui:define name="local-main">
+
+		<h:form id="systemCodeListForm">
+			<header>
+				<!-- メニューバー -->
+				<ul class="x-action-menu x-clearfix">
+					<li><a href="#{request.contextPath}/pages/TopMenu.xhtml">閉じる</a></li>
+				</ul>
+				<!-- 画面タイトル -->
+				<h2 class="x-page-title">システムコードリスト</h2>
+			</header>
+			<section>
+				<!-- ++++++++++++++++++++++++++++++++++++++++ 検索条件エリア -->
+				<x:panelCriteria baseCriteriaItem="#{systemCodeListPage.baseCriteriaItem}"
+					addCriteriaAction="#{systemCodeListPage.addCriteria}"
+					removeCriteriaAction="#{systemCodeListPage.removeCriteria}"
+					searchAction="#{systemCodeListPage.search}"
+					resetAction="#{systemCodeListPage.resetCriteria}"
+					jsonDataRenderId="systemCodeListForm_jsonData">
+					<!-- ========================== 固定検索条件 -->
+					<x:panelCriteriaText id="systemCode"   name="システムコード"     styleClass="x-halfTextField" fixed="true"/>
+					<!-- ========================== 任意検索条件 -->
+					<x:panelCriteriaText id="mainValue"      name="メイン値"/>
+					<x:panelCriteriaText id="subValue"       name="サブ値"/>
+					<x:panelCriteriaText id="remarks"        name="備考"/>
+					<x:panelCriteriaItem id="createDatetime" name="登録日時">
+						<span class="x-float-none">
+							<h:inputText label="登録日時（From）" id="createDatetimeFrom" value="#{criteriaItem.createDatetimeFromFormat}" styleClass="x-dateField"/>
+							～
+							<h:inputText label="登録日時（To）" id="createDatetimeTo" value="#{criteriaItem.createDatetimeToFormat}" styleClass="x-dateField"/>
+						</span>
+					</x:panelCriteriaItem>
+					<x:panelCriteriaItem id="invalid" name="無効">
+						<h:selectBooleanCheckbox id="invalid" value="#{criteriaItem.invalid}"/>
+						無効コードも含める
+					</x:panelCriteriaItem>
+				</x:panelCriteria>
+				<button onclick="addItem();return false;">新規</button>
+				<button onclick="openDetailsTest();return false;">編集</button>
+				
+				<button onclick="xgridSearch();return false;">検索</button>
+				
+				<!-- ++++++++++++++++++++++++++++++++++++++++ 一覧表示エリア -->
+				<div id="systemCodeListArea" class="x-clearfix">
+					<div id="systemCodeList" ><!-- SlickGridからここに書き出される --></div>
+				</div><!-- systemCodeListArea -->
+				<h:panelGroup layout="block" id="jsonData" styleClass="x-hidden">#{systemCodeListPage.jsonData}</h:panelGroup>
+			</section>
+			<footer>
+	
+			</footer>
+		</h:form>
+		
+		</ui:define><!-- name=local-main -->
+		<!-- ======================================== 画面固有のscriptを定義 -->
+		<ui:define name="local-script">
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++ SlickGrid -->
+		<ui:include src="/resources/framework/compornent/x-slickgrid-edit-lib.xhtml"/>
+		<script type="text/javascript">
+		//<![CDATA[
+		//SlickGridを保持するxgridと表示データとなるDataViewであるxdata
+		var xgrid;
+		var xdata = new Slick.Data.DataView();
+		
+		function requiredFieldValidator(value) {
+			if (value == null || value == undefined || !value.length) {
+				return {valid: false, msg: "This is a required field"};
+			} else {
+				return {valid: true, msg: null};
+			}
+		}
+		
+		function addItem() {
+			var item = {"id": "-"+(Math.round(Math.random()*10000)) ,"systemCode": "", "invalidFlag": "N"};
+			xgrid.addNewItem(item);
+		}
+		
+		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++ SlickGrid
+		
+		//SlickGrid: 列の定義
+		var columns = [
+			{id:"no"             , name:"#"               , field: "num", behavior:"select", cssClass:"cell-selection", width:40, cannotTriggerInsert:true, resizable:false, unselectable:true },
+			{id:"id"             , name:"#id"             , field: "id"                  , width:　0},
+			{id: "systemCode"    , name: "システムコード" , field: "systemCode"          , width:  80, resizable: false, editor: Slick.Editors.Text, validator: requiredFieldValidator, cssClass:"cell-title"},
+			{id: "mainValue"     , name: "メイン値"       , field: "mainValue"           , width: 160, editor: Slick.Editors.Text},
+			{id: "subValue"      , name: "サブ値"         , field: "subValue"            , width: 160, editor: Slick.Editors.XSelect, options:"はい,いいえ,どちらでも"},
+			{id: "lineupNo"      , name: "表示順"         , field: "lineupNo"            , width:  30},
+			{id: "remarks"       , name: "備考"           , field: "remarks"             , width: 240, editor: Slick.Editors.LongText},
+			{id: "invalidFlag"   , name: "無効"           , field: "invalidFlag"         , width:  40, minWidth: 20, maxWidth: 40, cssClass: "cell-effort-driven", editor: Slick.Editors.Checkbox}, //formatter: Slick.Formatters.Checkmark
+			{id: "createDatetime", name: "登録日時"       , field: "createDatetimeFormat", width: 140},
+			{id: "createUserId"  , name: "登録者"         , field: "createUserId"        , width: 120},
+			{id: "updateDatetime", name: "更新日時"       , field: "updateDatetimeFormat", width: 140},
+			{id: "updateUserId"  , name: "更新者"         , field: "updateUserId"        , width: 120}
+		];
+
+		//SlickGrid: オプションの定義（JSON）
+		var options = {
+			dataViewId: "id",
+			enableCheckboxSelector: true,
+			//cellHighlightCssClass: "changed-cell",
+			//cellFlashingCssClass: "current-cell",
+
+			//行の高さ
+			//rowHeight: 30,
+			//何要素目までを固定にするか(1列目=0)
+			//frozenColumn: 1
+		};
+		
+		$(function(){
+			//行の強調表示 (jQuery UIのui-state-highlight, ui-state-errorなども使用可能)
+			xdata.getItemMetadata = function (row) {
+				//「無効フラグ」がYの場合は無効状態のスタイル
+				if(this.getItem(row).invalidFlag == 'Y'){
+					return {cssClasses: 'x-state-invalid'};
+				}
+				return null;
+			};
+
+			//SlickGridの生成
+			xgrid = new Slick.XEditGrid("#systemCodeList", xdata, columns, options);
+			
+
+			
+			
+			//xgrid.setSelectionModel(new Slick.RowSelectionModel());
+			//xgrid.setSelectionModel(new Slick.CellSelectionModel());
+
+/*			
+			xgrid.onAddNewRow.subscribe(function (e, args) {
+				console.log("call onAddNewRow.subscribe : e=" + e + " args=" + args);
+
+// 				var item = args.item;
+// 				xgrid.invalidateRow(data.length);
+// 				//data.push(item);
+// 				xgrid.updateRowCount();
+// 				xgrid.render();
+				
+				var item = {"id": "-1" ,"systemCode": "XXX001", "invalidFlag": "N"};
+				$.extend(item, args.item);
+				xdata.addItem(item);
+			});
+*/
+	
+			
+			
+	
+		});
+		
+		/**
+		 * function名「searchPostAction」（予約名）
+		 * 非同期検索の場合に非同期処理後に呼び出される。
+		 * panelCriteria.xhtmlで同名関数の呼出を追加（jsf.ajax.addOnEvent）している。
+		 * 引数jsonにはjsonDataRenderIdで指定したJSON書き出し先の要素からJSONデータが渡される。
+		 */
+		function searchPostAction(json){
+			//XGridのdataView更新処理を呼び出す。
+			xgrid.updateDataView(json);
+		}
+
+		function xgridSearch(){
+			var url = getContextPath() + "/api/1/syscodes";
+
+			$.getJSON(url, function(data) {
+				xgrid.updateDataView(data);
+			});
+		}
+	
+		function openDetailsTest(){
+			console.log("call getRowById() " + xdata.getRowById("SU2040"));
+			
+			var item = xdata.getItemById("SU2040");
+			console.log("call getItemById()  systemCode = " + item["systemCode"]);
+			
+			//行スクロール位置を指定した行番号へ
+			xgrid.scrollRowIntoView(2);
+			//指定セルを点滅表示
+			xgrid.flashCell(2, 2, 100);
+
+			
+		}
+		/*
+		function openDetailsTest() {
+			if (xgrid.getEditorLock().isActive() && !xgrid.getEditorLock().commitCurrentEdit()) {
+				return;
+			}
+			alert(xgrid.getActiveCell().row);
+			console.log("call openDetails() : ");
+			var $modal = $("<div class='item-details-form'></div>");
+			$modal = $("#itemDetailsTemplate")
+					.tmpl({
+						context: xgrid.getDataItem(xgrid.getActiveCell().row),
+						//context: xgrid.getDataItem(1),
+						columns: columns
+					})
+					.appendTo("body");
+			console.log("call openDetails() : check1");
+			$modal.keydown(function (e) {
+				if (e.which == $.ui.keyCode.ENTER) {
+					xgrid.getEditController().commitCurrentEdit();
+					e.stopPropagation();
+					e.preventDefault();
+				} else if (e.which == $.ui.keyCode.ESCAPE) {
+					xgrid.getEditController().cancelCurrentEdit();
+					e.stopPropagation();
+					e.preventDefault();
+				}
+			});
+			console.log("call openDetails() : check2");
+
+			$modal.find("[data-action=save]").click(function () {
+				xgrid.getEditController().commitCurrentEdit();
+			});
+			console.log("call openDetails() : check3");
+
+			$modal.find("[data-action=cancel]").click(function () {
+				xgrid.getEditController().cancelCurrentEdit();
+			});
+			console.log("call openDetails() : check4");
+
+
+			var containers = $.map(columns, function (c) {
+				return $modal.find("[data-editorid=" + c.id + "]");
+			});
+			console.log("call openDetails() : check5");
+
+			var compositeEditor = new Slick.CompositeEditor(
+					columns,
+					containers,
+					{
+						destroy: function () {
+							$modal.remove();
+						}
+					}
+			);
+			console.log("call openDetails() : check6");
+
+			xgrid.editActiveCell(compositeEditor);
+			console.log("call openDetails() : check7");
+			return false;
+		}
+		*/
+		//]]>
+		</script>
+		</ui:define><!-- name=local-script -->
+	</ui:composition>
+	</h:body>
+</html>

@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+/* -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+ * format.css	v1.0.0
+ * Copyright (c) IT Engineering Ltd. 2006 All Rights Reserved.  
+ * Author	: IT&E Kinya Sakama 
+ * Date		: 2006/04/01
+ * Version  : 1.0.0-001 2007/09/04 Kinya Sakama 新規作成
+ * -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* */
+
+/* テキスト */
+input.x-fullTextField	{ width: 95%;}										    /* 全角 */
+input.x-halfTextField 	{ ime-mode:disabled;}									/* 半角 */
+input.x-alphabeticField { ime-mode:disabled;}									/* 半角英字 */
+input.x-alphamericField { ime-mode:disabled;}									/* 半角英数 */
+input.x-numericField 	{ ime-mode:disabled;}									/* 半角数字 */
+
+/* 日付 */
+input.x-dateField		{ width: 80px; text-align:center; ime-mode:disabled;}	/* 日付 */
+input.x-timeField		{ width: 60px; text-align:center; ime-mode:disabled;}	/* 時刻 */
+input.x-datetimeField	{ width:140px; text-align:center; ime-mode:disabled;}	/* 時刻 */
+input.x-yearField		{ width: 80px; text-align:center; ime-mode:disabled;}	/* 年 */
+input.x-monthField		{ width: 80px; text-align:center; ime-mode:disabled;}	/* 月 */
+
+/* 数値 */
+input.x-intField		{ text-align:right;  ime-mode:disabled;}				/* 整数 */
+input.x-float1Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第1位] */
+input.x-float2Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第2位] */
+input.x-float3Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第3位] */
+input.x-float4Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第4位] */
+input.x-float5Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第5位] */
+input.x-float6Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第6位] */
+input.x-float7Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第7位] */
+input.x-float8Field		{ text-align:right;  ime-mode:disabled;}				/* 小数 [小数第8位] */
+/* format.js対象外(スタイルのみ) */
+input.x-float0Field		{ text-align:right;  ime-mode:disabled;}				/* 整数 */
+
+/* 入力要素の枠なし。readOnly属性と併用 */
+.x-readonlyField{
+		border-style: none;
+		border-width: 0;
+	background-color: transparent;
+			   width: 99%;
+}

@@ -1,0 +1,666 @@
+@charset "utf-8";
+/* ==========================================================================
+   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
+   ========================================================================== */
+/* 横幅が979px以下用（タブレット用）の記述 */
+/* @media only screen and (max-width: 979px) {}*/
+/* 横幅が767px以下用（タブレット／スマートフォン用）の記述 */
+/* @media only screen and (max-width: 767px) {}*/
+/* 横幅が479px以下用（スマートフォン用）の記述 */
+/* @media only screen and (max-width: 479px) {}*/
+
+html,
+button,
+input,
+select,
+textarea,
+.ui-widget {
+	color: #222;
+	/* normalize.cssで次のタグはsans-serifに固定になっているので同じフォント設定 */
+	font-family: 'Meiryo UI','Meiryo','ＭＳ Ｐゴシック', sans-serif;
+	font-size: 0.9em;
+	line-height: 1.1;
+}
+
+body {
+	font-family: 'Meiryo UI','Meiryo','ＭＳ Ｐゴシック', sans-serif;
+	font-size: 0.9em;
+	line-height: 1.1;
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+img {
+    vertical-align: middle;
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.x-chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+.x-wrapper {
+    width: 96%;
+    margin: 0 2%;
+}
+
+/* ==============
+    MOBILE: Menu
+   ============== */
+nav ul {
+	margin: 0;
+	padding: 0;
+}
+nav a {
+	display: block;
+	margin-bottom: 4px;
+	padding: 3px 0;
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+}
+nav a:hover,
+nav a:visited {
+	color: white;
+}
+nav a:hover {
+	text-decoration: underline;
+}
+
+/* ==============
+    MOBILE: Main
+   ============== */
+.x-main {
+	padding: 10px 0;
+	position: relative; /* 念のため追加しておく */
+}
+.x-main article {
+	position: relative; /* 念のため追加しておく */
+}
+.x-main aside {
+	color: white;
+	padding: 0px 10px 10px;
+	position: relative; /* aside閉じる#x-aside-closeのpositionをabsolute指定するため追加 */
+}
+.x-footer-container footer {
+	color: white;
+	padding: 2px 0;
+}
+
+/* ===============
+    ALL: IE Fixes
+   =============== */
+.ie7 .x-app-title {
+	padding-top: 20px;
+}
+
+nav ul li {
+	display: inline;
+}
+.oldie nav a {
+	margin: 0 0.7%;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+.x-main-container {
+	position: relative; /* jQuery UIのButtonを使うと、IE8でボタンがスクロールについてこない現象がある。このrelative指定で回避できるとのこと */
+	overflow: auto;
+}
+
+/* ヘッダー、フッター、サイドバー固定 */
+.x-header-container, .x-footer-container, .x-main aside {
+	position: fixed; top: 0;left: 0; width: 100%; 
+}
+.x-footer-container		{ top: auto; bottom: 0;}
+.x-main aside			{ width: 10%; }
+.x-main article		{ width: 82%; left: 11%; position: relative; top:0;}
+
+/* タイトルとナビリンクを横並びに */
+.x-app-title	{ float: left;}
+nav				{ float: right; width: 38%;}
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+/* 横幅が767px以下用（タブレット／スマートフォン用）の記述 */
+@media only screen and (max-width: 767px) {
+	
+/* ====================
+    INTERMEDIATE: Menu
+   ==================== */
+	nav a {
+		float: left;
+		width: 27%;
+		margin: 0 1.7%;
+		padding: 3px 2%;
+		margin-bottom: 0;
+	}
+	nav li:first-child a {
+		margin-left: 0;
+	}
+	nav li:last-child a {
+		margin-right: 0;
+	}
+
+	/* サイドメニューをブロック表示 */
+	.x-header-container, .x-footer-container, .x-main aside, .x-main article{
+		position: relative; 
+		width: 100%; left: auto; top: auto;
+	}
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+.x-ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    *text-indent: -9999px;
+}
+
+.x-ir:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+
+.x-hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.x-visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.x-visuallyhidden.focusable:active,
+.x-visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+.x-invisible {
+    visibility: hidden;
+}
+
+.x-clearfix:before,
+.x-clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.x-clearfix:after {
+    clear: both;
+}
+
+.x-clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .x-ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+.x-fakewindowcontain .ui-widget-overlay {
+	position: absolute;
+}
+
+
+/* ==========================================================================
+    CSSフレームワークのオーバライド（微調整）
+   ========================================================================== */
+/* normalize.cssのhタグのmarginが大きすぎるので調整*/
+h1, h2, h3, h4 {margin: 0.3em 0;}
+h5, h6 {margin: 0.1em 0;}
+
+
+/* --------------------------------------------------------------------------
+	jQuery UI の 微調整
+   -------------------------------------------------------------------------- */
+/* タブの高さを低くなるよう調整 */
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {padding: .1em 1em;}
+/* ボタンの高さを低くなるよう調整 */
+.ui-button-text {padding-bottom: 2px!important; padding-top: 2px!important; }
+input.ui-button {padding-bottom: 2px!important; padding-top: 2px!important; }
+.ui-datepicker { font-size: 80%;}
+
+
+/* ===================================================================
+    サイドメニュー 
+   =================================================================== */
+
+/* 通常サイズ（サイドメニューが固定表示できるサイズ）の場合に制御ボタン表示 */
+/* aside開く／閉じるボタンのスタイル */
+#x-aside-open, #x-aside-close { display:inline; padding: 0px; margin: 0px; position: absolute; width: 16px; height: 16px; }
+/* 位置 */
+#x-aside-open  { top: 10px; left: 0; }
+#x-aside-close { top: 0;   right: 0; }
+
+/* 横幅が767px以下用（タブレット／スマートフォン用）の記述 */
+@media only screen and (max-width: 767px) {
+	/* aside開く／閉じるボタンを非表示 */
+	#x-aside-open, #x-aside-close {display: none; }
+}
+
+/* メニューカテゴリ */
+.x-side-menu h3 {
+    background-color: #1d5987;
+    color: #ffffff;
+    padding: 3px 5px;
+    margin: 20px 0 5px 0; 
+}
+.x-side-menu ul{ 
+    margin: 0; 
+    padding: 0; 
+    list-style-type: none; 
+}
+.x-side-menu li{ 
+    display: inline; 
+    padding: 0; 
+    margin: 0; 
+}
+.x-side-menu a{
+    display: block; 
+    border: 1px solid #1d5987;
+    border-left-width: 8px;
+    background-color: #fff;
+    padding: 3px 10px;
+    text-decoration: none;
+    color: #1d5987;
+    width: 85%; 
+    margin: 1px 0;
+    text-align: left;
+    font-weight: bold;
+}
+.x-side-menu a:hover{
+    background-color: #cc0000;
+    color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+	表示／非表示 切り替え(x-toggleによるui-widget-contentの表示切替)
+   -------------------------------------------------------------------------- */
+.x-toggle-switch {
+	cursor: pointer;
+	border: 1px solid #666666;
+	background: #CCCCCC;
+	color: #666666;
+}
+.x-toggle-content {
+	padding: .2em 1em .5em;
+	border: 1px solid #666666;
+	border-top-style: none;
+	background: #f0fff0;
+}
+
+/* --------------------------------------------------------------------------
+	タブの共通スタイル
+   -------------------------------------------------------------------------- */
+/* タブの枠（div）：x-common.jsにてタブ化 */
+.x-tabs				{} 
+/* タブ削除アイコン：x-common.jsにてアイコン化 */
+.x-tab-close-icon	{}
+/* アクティブなタブは削除アイコンの色と同じになってしまうのでアイコンの背景色を変更する */
+li.ui-state-active .x-tab-close-icon	{
+	background-color: #FFFFFF; margin: 1px 5px 1px 0px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+
+}
+/* タブ追加用タブ */
+.x-tab-add a		{ background-color: #CFCFCF!important;}
+ 
+ 
+ /* --------------------------------------------------------------------------
+	検索条件入力の共通フォーマット
+   -------------------------------------------------------------------------- */
+ul.x-criteria, ul.x-criteria > li				{ border:0; margin:0; padding:0; list-style:none;}
+ul.x-criteria > li								{ display: block; vertical-align: middle;}
+ul.x-criteria > li > span.x-criteria-property,
+ul.x-criteria > li > label						{ vertical-align: top;}
+ul.x-criteria > li > span.x-criteria-property > span,
+ul.x-criteria > li > label						{ float:left; font-weight: bold; width:12em; vertical-align: middle;}
+ul.x-criteria > li input						{ float:left; margin-bottom: 1px;}
+ul.x-criteria > li input.x-fullTextField		{ width: 25%;}
+
+/* 回り込み解除 */
+ul.x-criteria > li:before, ul.x-criteria > li:after { content: " "; display: table;}
+ul.x-criteria > li:after { clear: both; }
+
+/* 「条件追加」選択肢の位置調整（右側に配置） */
+ul.x-criteria > li.x-criteria-addcond			{ position: absolute; right: 200px; }
+ul.x-criteria > li.x-criteria-addcond > span.x-criteria-property > span,
+ul.x-criteria > li.x-criteria-addcond > label > span { text-align: right; padding-right: 20px; width:auto; }
+
+/* 入力要素を横並びにできるように */
+ul.x-criteria .x-float-none	, 
+ul.x-criteria .x-float-none	> input,
+ul.x-criteria .x-float-none	> select,
+ul.x-criteria > li > span.x-criteria-property > .x-float-none	, 
+ul.x-criteria > li > span.x-criteria-property > .x-float-none	> input,
+ul.x-criteria > li > span.x-criteria-property > .x-float-none	> select { float: none; clear:both;}
+
+/* 「AND/OR条件」選択肢をjQueryのbuttonsetにした際のサイズ調整 */
+ul.x-criteria .x-criteria-andor 			{display: inline-block;} 
+ul.x-criteria .x-criteria-andor table		{display: inline-table;} /* radioでtableが生成される */ 
+ul.x-criteria .x-criteria-andor span		{width: 30px; padding: 1px; font-size: .8em;} 
+
+/* ソート条件欄 */
+.x-criteria-orderby				 { margin-left: 20px;}
+.x-criteria-orderby > span		 { float: left;font-weight: bold; width: 80px; text-align: right; margin-right: 20px;} /* 「ソート条件」タイトル */
+.x-criteria-orderby > ul		 { display: inline; padding: 0px; margin: 0px;}
+.x-criteria-orderby > ul > li	 { float: left; padding: 1px; margin-left: 2px; vertical-align: middle; list-style: none;}
+/* 回り込み解除 */
+.x-criteria-orderby:before, .x-criteria-orderby:after { content: " "; display: table;}
+.x-criteria-orderby:after { clear: both; }
+
+/* 横幅が767px以下用（タブレット／スマートフォン用）の記述 */
+@media only screen and (max-width: 767px) {
+	ul.x-criteria li.x-criteria-addcond			{ position: relative; right: auto; }
+}
+
+
+ /* --------------------------------------------------------------------------
+	メニューバーの共通フォーマット
+   -------------------------------------------------------------------------- */
+ul.x-action-menu, ul.x-action-menu > li	{ margin:0; padding:0; list-style:none; }
+ul.x-action-menu							{ background: #f6f6fa;}
+ul.x-action-menu > li						{ }
+ul.x-action-menu a {
+	margin: 1px;
+	padding: 2px 4px;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: bold;
+	background-color: #666;
+	text-decoration: none;
+	color: #FFFFFF;
+	display: inline; 
+	float:left;
+	width:8em; 
+}
+ul.x-action-menu a:hover	{
+	background-color: #e95388;
+	color: #6e4a55;
+}
+ul.x-action-menu .x-dummy-menu {
+	margin: 1px;
+	display: inline; 
+	float:left;
+	width:8em; 
+}
+/* 横幅が767px以下用（タブレット／スマートフォン用）の記述 */
+@media only screen and (max-width: 767px) {
+	ul.x-action-menu a, ul.x-action-menu .x-dummy-menu	{ display: block; float: none; width: auto;}
+}
+
+/*	=========================================================================
+		ページタイトル
+	========================================================================= */
+.x-page-title {margin: 3px 0px;}
+
+/*	=========================================================================
+		共通入力フォーム
+	========================================================================= */
+/* デバッグ用（各要素を色づけ）
+ul.x-properties 			{ border: 1px solid red; background-color: #FFCCCC;}
+ul.x-properties li			{ border: 1px solid blue; background-color: #CCCCFF; }
+ul.x-properties li span	{ border: 1px solid green; background-color: #CCFFCC; }
+ul.x-properties li label	{ border: 1px solid #666666; background-color: yellow; 	}
+ul.x-properties li p		{ border: 1px solid #666633; background-color: #FFFFCC; }
+*/
+
+/* 入力要素ブロック */
+div.x-properties {
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc;
+	color: #666;
+	background: #FEFAFD;
+}
+
+/* リスト関連要素のリセット */
+ul.x-properties, ul.x-properties > li, ul.x-properties > li > p,
+ul.x-properties > li > label, ul.x-properties > li > label > span, ul.x-properties > li > span
+	{ margin: 0; padding: 0; display: block;}
+
+/* 順序のないリストの枠組み (Unordered List) */
+ul.x-properties					{ width: auto;}
+/* 1入力項目のリスト(li) */
+ul.x-properties > li	{
+	width: 48.5%; 
+	float: left;
+	list-style:none;
+	border-top: 1px solid #79abd0;
+	background-color: #FFFFFF;
+}
+/* 1入力項目(li)のタイトルと入力要素を紐付けるラベル */
+ul.x-properties > label, ul.x-properties > li > label 			{ }
+/* 1入力項目(li)の値表示欄 */
+ul.x-properties > li > span, ul.x-properties > li > label > span	 { float:left; line-height: 1.4em; }
+/* リストとタイトル、入力要素のマージン */
+ul.x-properties > li input, ul.x-properties > li textarea, 
+ul.x-properties > li select, ul.x-properties > li > p 
+									{ margin-top: 2px; margin-bottom: 4px; }
+
+/* 1入力項目(li)の最初のspanは項目タイトル（タイトルをspanで囲う）*/
+ul.x-properties > li > span:first-child, ul.x-properties > li > label > span:first-child { 
+	width: 140px; 
+	background: #c4e0f4;
+	font-weight: bold;
+	color: #014C83;	 
+ }
+
+/* 1入力項目(li)につき複数の入力要素(radio, checkbox)はpで囲う タイトルの幅と同じだけ左マージン*/
+ul.x-properties > li > p				{ margin-left: 140px;} 
+/* radio, checkboxの label要素を横に並べる*/
+ul.x-properties > li > p > label		{ margin: 0px 1em 3px 0px; padding: 0; display: inline-block;}
+/* radioとcheckboxの選択時に強調 */
+ul.x-properties > li > p > label:hover { background: #CCCCCC; color: #FF6666; cursor: pointer;}
+/* リストとタイトル、入力要素のマージン設定に依存しない */
+ul.x-properties > li > p > input		{ margin-top: 1px;}
+
+/* 共通入力フォーマット（x-format.css）のx-fullTextFieldの横幅調整（横並びになるように） */
+ul.x-properties .x-fullTextField		{ width: 55%;}
+
+/* 回り込み解除 */
+ul.x-properties:before, .x-properties:after { content: " "; display: table;}
+ul.x-properties:after { clear: both; }
+
+/* 【個別指定: x-li-1col】リストを縦並び1列に */
+ul.x-li-1col > li 				{ width: 100%; float: none; clear: both; }
+ul.x-li-1col .x-fullTextField	{ width: 80%;}
+
+/* 【個別指定: x-label-inline】チェックボックス、ラジオボタンの label要素を横に並べる*/
+ul.x-properties > li > p > label.x-label-inline {
+	margin: 0px 1em 3px 0px; 
+	display: inline-block;
+}
+
+/* 【個別指定: タイトル幅】項目タイトルの幅を調整する場合は下記の横幅を個別に指定する
+ul.x-properties li span		{ width: 180px;}
+ul.x-properties li p			{ margin-left: 180px;}
+.x-properties .x-fullTextField	{ width: 55%;}
+*/
+/* 奇数行(odd)と偶数行(even)
+ul.x-properties li:nth-child(odd){
+	background-color: yellow;
+}
+ul.x-properties li:nth-child(even){
+	clear: left;
+}
+*/
+/*	=========================================================================
+		共通表スタイル
+	========================================================================= */
+/* 一覧表示Table */
+table.x-properties {
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100%;
+}
+table.x-properties > tr > th , table.x-properties > thead > tr > th, table.x-properties > tbody > tr > th{
+	border: 1px solid #79abd0;
+	background: #c4e0f4;
+	font-weight: bold;
+	color: #014C83;	 
+	width: 140px;
+	text-align: left;
+	padding-left: 1em;
+}
+table.x-properties > tr > td , table.x-properties > thead > tr > td, table.x-properties > tbody > tr > td{
+	border: 1px solid #79abd0;
+	background: #ffffff;
+	padding-left: .4em;
+}
+
+/* ==========================================================================
+		SlickGridに関連するスタイル
+   ========================================================================== */
+a.x-grid-link { text-decoration: none; font-weight: bold; color: blue;}
+a.x-grid-link:hover, a.x-grid-link:visited { color: red;}
+a.x-grid-link:hover {text-decoration: underline;}
+
+/* SlickGrid内のイメージリンク（詳細表示アイコン） */
+span.x-grid-link:hover { background: red; cursor: pointer;}
+
+/* 無効状態のスタイル（SlickGridの背景色等で使用） */
+.x-state-invalid {
+	background: #CCCCCC; 
+	opacity: .35;
+	filter:Alpha(Opacity=35);
+	background-image: none;
+}
+
+/* テーブルのヘッダー固定縦スクロール用 */
+@media screen{
+	.x-scroll-head			{ width:auto; overflow:hidden; padding-bottom:2px;}
+	.x-scroll-head table	{ margin-right: 17px; }	
+	.x-scroll-content		{
+	/* 常にスクロールバーを出すようにしauto対応 */
+	overflow-y: scroll;
+  border-style: none none solid none;
+  border-width: 1px;
+		 width: auto;
+		height: 200px;
+	}
+	/* x-propertiesのpadding-leftをクリア */
+	.x-scroll-head > table > tr > th , .x-scroll-head > table > thead > tr > th, .x-scroll-head > table > tbody > tr > th,
+	.x-scroll-content > table > tr > td , .x-scroll-content > table > thead > tr > td, .x-scroll-content > table > tbody > tr > td{
+		padding-left: 0px;
+	}
+}

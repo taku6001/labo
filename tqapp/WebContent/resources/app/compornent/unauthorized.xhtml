@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:cst="http://cst.chiyoda.co.jp/cst-taglib">
+	<h:body>
+	<ui:composition template="/resources/app/compornent/app-detail-layout.xhtml">
+		<!-- ============================================== 画面主要部の定義 -->
+		<ui:define name="local-head">
+		</ui:define><!-- name=local-head -->
+		<!-- ============================================== 画面主要部の定義 -->
+		<ui:define name="local-main">
+
+		<header>
+			<!-- 画面タイトル -->
+			<h2 class="x-page-title">システムエラー</h2>
+		</header>
+		<section>
+			<hr />
+				アクセスする権限がありません。
+				<br />
+			<hr />
+
+		<form jsf:id="errorForm" >
+			<a href="#{request.contextPath}/pages/top.xhtml">ページトップへ</a><br />
+		</form>
+		</section>
+		<footer>
+
+		</footer>
+			
+		</ui:define><!-- name=local-main -->
+		<!-- ======================================== 画面固有のscriptを定義 -->
+		<ui:define name="local-script">
+		<script type="text/javascript">
+		//<![CDATA[
+		$(function(){
+
+		});
+		//]]>
+		</script>
+		</ui:define><!-- name=local-script -->
+	</ui:composition>
+	</h:body>
+</html>

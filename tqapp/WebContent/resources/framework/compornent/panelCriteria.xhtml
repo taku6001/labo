@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf"
+	  xmlns:f="http://java.sun.com/jsf/core" 
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:composite="http://java.sun.com/jsf/composite"
+	  xmlns:x="http://java.sun.com/jsf/composite/framework/compornent">
+	<h:body>
+	
+	<composite:interface>
+		<composite:attribute name="baseCriteriaItem" required="true"/>
+		<composite:attribute name="addCriteriaAction" method-signature="void addCriteria(javax.faces.event.ActionEvent)" required="true"/>
+		<composite:attribute name="removeCriteriaAction" method-signature="void removeCriteria(javax.faces.event.ActionEvent)" required="true"/>
+		<composite:attribute name="searchAction" method-signature="void search()" required="true"/>
+		<composite:attribute name="resetAction" method-signature="void resetCriteria()" required="true"/>
+		<composite:attribute name="jsonDataRenderId" />
+		<composite:facet name="criteriaOptions"/>
+		<composite:facet name="actionOptions"/>
+	</composite:interface>
+	
+
+	<composite:implementation>
+		<h:panelGroup layout="block" id="xCriteriaArea" styleClass="x-criteria-area" style="border-style:none;display: none;">
+		<!-- 
+			panelGroupのコンポーネントIDが"userListForm_j_idt21_xCriteriaArea"と
+			単にform.clientId+"_"+div.clientIdではなくなるのでリクエスト変数にclientIdを保持し、
+			この値をf:ajaxなどのtargetに使用する。 
+		-->
+		#{requestScope.put("xCriteriaAreaId", component.clientId)}
+
+			<div id="xCriteriaHeader" class="ui-state-default ui-widget-header ui-corner-top x-toggle-switch">
+				<span class="x-toggle-icon"/>検索条件
+			</div>
+			<div id="xCriteriaContent" class="ui-widget-content ui-corner-bottom x-toggle-content x-tabs">
+				<ul>
+					<!-- 条件1～タブ -->
+					<li jsfc="ui:repeat" var="criteriaItem" value="#{cc.attrs.baseCriteriaItem.criteriaList}" varStatus="st" >
+						<a href="#tabs-#{st.index + 1}">
+							条件 #{st.index + 1}
+						</a>
+						<!-- タブ削除アイコン -->
+						<a href="javascript:void(0);" jsf:actionListener="#{cc.attrs.removeCriteriaAction}">
+							<span class="x-tab-close-icon" />
+							<f:param name="removeCriteriaIdx" value="#{st.index}"/>
+							<f:ajax execute="@form" render="#{xCriteriaAreaId} x-render-messages"/>
+						</a>
+					</li>
+					<!-- タブ追加用 -->
+					<li class="x-tab-add">
+						<a href="javascript:void(0);" jsf:actionListener="#{cc.attrs.addCriteriaAction}">
+							+ <f:ajax execute="@form" render="xCriteriaArea x-render-messages"/>
+						</a>
+						<!-- アクティブタブのindex -->
+						<input type="hidden" id="activeTabIndex" jsf:value="#{cc.attrs.baseCriteriaItem.activeTabIndex}" />
+					</li>
+				</ul>
+				<ui:repeat var="criteriaItem" value="#{cc.attrs.baseCriteriaItem.criteriaList}" varStatus="st">
+				<div id="tabs-#{st.index + 1}">
+					<ul class="x-criteria">
+						<ui:fragment rendered="#{criteriaItem.availableDispCond}">
+						<li class="x-criteria-addcond">
+							<label>
+								<span>条件追加</span>
+								<h:selectOneMenu id="selectedDispCond" value="#{criteriaItem.selectedDispCond}">
+									<f:ajax event="change" listener="#{criteriaItem.addDispCond}" 
+										execute="@form" render="#{xCriteriaAreaId} x-render-messages"/>
+									<f:selectItems value="#{criteriaItem.dispCondOptions}"/>
+								</h:selectOneMenu>
+								<!-- デバッグ用：選択済みの条件確認 -->
+								<ui:fragment rendered="false">
+									デバッグ用：
+									<h:selectManyListbox id="dispCondSet" value="#{criteriaItem.dispCondSet}">
+										<f:selectItems value="#{criteriaItem.dispCondSet}"/>
+									</h:selectManyListbox>
+								</ui:fragment>
+							</label>
+						</li>
+						</ui:fragment>
+						<x:panelCriteriaDefinition baseCriteriaItem="#{cc.attrs.baseCriteriaItem}" criteriaItem="#{criteriaItem}">
+							<composite:insertChildren/>	
+						</x:panelCriteriaDefinition>
+					</ul>
+				</div>
+				</ui:repeat>
+				<!-- 表示順 -->
+				<div class="x-criteria-orderby">
+					<span>表示順</span>
+					<ul>
+						<!-- 条件1～タブ -->
+						<li jsfc="ui:repeat" var="orderByItem" value="#{cc.attrs.baseCriteriaItem.orderByList}" varStatus="st" >
+							<!-- 削除アイコン -->
+							<a href="javascript:void(0);" jsf:actionListener="#{cc.attrs.baseCriteriaItem.removeOrderBy(st.index)}">
+								<span class="x-tab-close-icon" />
+								<f:ajax execute="@form" render="#{xCriteriaAreaId} x-render-messages"/>
+							</a>
+							#{st.index + 1}. 
+							<h:selectOneMenu value="#{orderByItem.propertyName}">
+								<f:selectItems value="#{cc.attrs.baseCriteriaItem.orderByOptions}"/>
+							</h:selectOneMenu>
+							<h:selectOneMenu value="#{orderByItem.orderType}">
+								<f:selectItems value="#{orderByItem.options}"/>
+							</h:selectOneMenu>
+						</li>
+						<li>
+							<!-- 追加アイコン -->
+							<a href="javascript:void(0);" jsf:actionListener="#{cc.attrs.baseCriteriaItem.addOrderBy}" >
+								<span class="x-orderby-add-icon" />
+								<f:ajax execute="@form" render="#{xCriteriaAreaId} x-render-messages"/>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!-- 検索条件オプション表示欄 -->
+				<composite:renderFacet name="criteriaOptions"/>
+				<!-- 検索アクション -->
+				<div class="x-criteria-button">
+					<button jsf:id="searchAction" jsf:action="#{cc.attrs.searchAction}" class="x-button-search">
+						検索
+						<f:ajax execute="@form" render="#{xCriteriaAreaId} #{cc.attrs.jsonDataRenderId} x-render-messages" disabled="#{empty cc.attrs.jsonDataRenderId}"/>
+						#{requestScope.put("xCriteriaSearchActionId", component.clientId)}
+					</button>
+					<button jsf:id="resetAction"  jsf:action="#{cc.attrs.resetAction}" class="x-button-reset">
+						リセット
+						<f:ajax execute="@form" render="#{xCriteriaAreaId} #{cc.attrs.jsonDataRenderId} x-render-messages" disabled="#{empty cc.attrs.jsonDataRenderId}"/>
+						#{requestScope.put("xCriteriaResetActionId", component.clientId)}
+					</button>
+				</div>
+				<!-- 検索アクションオプション表示欄 -->
+				<composite:renderFacet name="actionOptions"/>
+			</div><!-- id=xCriteriaContent -->
+
+		</h:panelGroup><!-- id=xCriteriaArea -->
+		<script type="text/javascript">
+		//<![CDATA[
+		function _formatPanelCriteriaStyle(){
+			var targetId = "#" + "#{xCriteriaAreaId}";
+			var target = $(targetId);
+			//検索条件欄をタブ化
+			//  タブ追加：新しいタブ
+			//  項目追加：選択タブ
+			//  検索    ：選択タブ
+			//  クリア  ：初期タブ
+			target.tabs({
+				active : $('#activeTabIndex').val() , 
+				activate: function(event, ui){
+					$('#activeTabIndex').val( ui.newTab.index() );
+				}
+			});
+
+			//iconスタイル
+			XLayout.addIconStyle(target);
+			//表示／非表示切替（Toggle）
+			XLayout.setToggle(target);
+			//検索条件欄を表示（表示に時間がかかるのでスタイル適用後に表示）
+			target.show();
+		}
+		function getPanelCriteriaJSON(){
+			if("#{cc.attrs.jsonDataRenderId}"=="") throw new Error("panelCriteria拡張タグのjsonDataRenderId属性を指定してください。");
+			return $.parseJSON($("##{cc.attrs.jsonDataRenderId}").text());
+		}
+		/**
+		 * ※拡張ポイント
+		 * function名「searchPostAction」（予約名）
+		 * 非同期検索の場合に非同期処理後に呼び出される。
+		 * panelCriteria.xhtmlで同名関数の呼出を追加（jsf.ajax.addOnEvent）している。
+		 * 引数jsonにはjsonDataRenderIdで指定したJSON書き出し先の要素からJSONデータが渡される。
+		 * ※「xgrid」という変数名以外でSlick.XGridを実装している場合は、各画面ではこの関数をオーバライドし中身を実装する。
+		 */
+		function searchPostAction(json){
+			//XGridのdataView更新処理を呼び出す。
+			if(xgrid){
+				xgrid.updateDataView(json);
+				xgrid.invalidate();
+			}else{
+				throw new Error("非同期検索処理後の後処理を「searchPostAction」の名前の関数に定義してください。（xgrid変数を使用していない場合）");
+			}
+		}
+		/**
+		 * ※拡張ポイント
+		 * function名「resetPostAction」（予約名）
+		 * searchPostActionと同様。
+		 */
+		function resetPostAction(json){
+			//XGridのdataView更新処理を呼び出す。
+			if(xgrid){
+				xgrid.updateDataView(json);
+				xgrid.invalidate();
+			}else{
+				throw new Error("非同期検索処理後の後処理を「resetPostAction」の名前の関数に定義してください。（xgrid変数を使用していない場合）");
+			}
+		}
+		$(function(){
+			//JSF非同期処理eventの制御
+			jsf.ajax.addOnEvent(function(event) {
+				switch (event.status) {
+					case "success":
+						//「検索」アクションの場合は後処理を呼び出す。（function searchPostActionは各画面で作成すること。）
+						var searchBtnId = "#{xCriteriaSearchActionId}";
+						if(event.source.id==searchBtnId){//非同期処理の発生元が検索ボタンの場合のみ
+							//JSONデータを取得
+							var json = getPanelCriteriaJSON();
+							//検索画面の後処理
+							searchPostAction(json);
+						}
+						//「リセット」アクションの場合は後処理を呼び出す。（function resetPostActionは各画面で作成すること。）
+						var resetBtnId  = "#{xCriteriaResetActionId}";
+						if(event.source.id==resetBtnId){//非同期処理の発生元が検索ボタンの場合のみ
+							//JSONデータを取得
+							var json = getPanelCriteriaJSON();
+							//検索画面の後処理
+							resetPostAction(json);
+						}
+						_formatPanelCriteriaStyle();
+						//resizeイベントを発生させSlickGrid等のサイズ調整
+						$(window).trigger("resize");
+						break;
+				}	
+			});
+			_formatPanelCriteriaStyle();
+		});
+		//]]>
+		</script>
+	</composite:implementation>
+
+	</h:body>
+</html>

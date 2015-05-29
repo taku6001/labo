@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<h:body>
+	<ui:composition>	
+				<aside>
+					<!-- aside閉じる -->
+					<button id="x-aside-close" >メニュー閉じる</button>
+					<br/>
+		利用するツールについて、問いにご回答ください。<br/>
+		回答のない人には、利用時に理不尽な課金を行います。<br/>				</aside>
+	
+	<script type="text/javascript">
+	//<![CDATA[
+	$(function(){
+
+	//何番目のメニューが選ばれているかCookieに格納するKey
+	var cookieKey = "aside-accordion-index";
+	//アコーディオン
+	$( "#accordion" ).accordion({
+		activate: function(event, ui) {
+			//閉じられた時はIDがない
+			if(ui.newHeader.context == undefined) return;
+			var headers = $("#accordion h3");
+			var i=0;
+			while(i<headers.length){
+				if(headers[i].id==ui.newHeader.context.id) break;
+				i++;
+			}
+			if($.cookie){
+				$.cookie(cookieKey, i, {path: getContextPath()});
+			}
+		},
+		active: $.cookie && $.cookie(cookieKey) != null ? parseInt($.cookie(cookieKey)) : 0
+//		collapsible: true
+	}).show();
+	});
+	//]]>
+	</script>
+	</ui:composition>
+	</h:body>
+</html>
+
